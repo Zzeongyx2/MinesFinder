@@ -1,6 +1,5 @@
 package pt.technic.apps.minesfinder;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,24 +10,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 
-import javax.swing.SwingConstants;
-
-import java.awt.event.*;
-
 import java.util.logging.*;
 import java.io.*;
 import java.net.MalformedURLException;
 import javax.sound.sampled.*;
-import java.util.*;
 
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JFrame; 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
-import java.awt.BorderLayout; 
-import java.awt.Color; 
-import java.awt.GridLayout; 
+import java.awt.BorderLayout;
 
 /**
  *
@@ -100,7 +90,6 @@ public class GameWindow extends javax.swing.JFrame {
 				if (result == JOptionPane.YES_OPTION) {
 					new GameWindow(new Minefield(minefield.getWidth(), minefield.getHeight(), minefield.getNumMines()),
 							timerecord, clickrecord).setVisible(true);
-				} else {
 				}
 			} else {
 				try {
