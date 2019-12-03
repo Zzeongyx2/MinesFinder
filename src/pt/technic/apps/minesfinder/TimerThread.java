@@ -20,7 +20,7 @@ public class TimerThread extends Thread{
 				Thread.sleep(1000);
 			}
 			catch(InterruptedException e) {
-				Thread.currentThread().interrupt();			//리팩토링인데 뭔 리팩토링인지 모르겠ㅠㅠ
+//				Thread.currentThread().interrupt();			//리팩토링인데 뭔 리팩토링인지 모르겠ㅠㅠ
 				 return;
 			}
 		}

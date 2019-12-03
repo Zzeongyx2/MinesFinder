@@ -1,5 +1,6 @@
 package pt.technic.apps.minesfinder;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -10,15 +11,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 
+import javax.swing.SwingConstants;
+
+import java.awt.event.*;
+
 import java.util.logging.*;
 import java.io.*;
 import java.net.MalformedURLException;
 import javax.sound.sampled.*;
+import java.util.*;
 
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 
 /**
  *
@@ -58,10 +68,14 @@ public class GameWindow extends javax.swing.JFrame {
 		ClickPoints+=1;				//클릭할때 1증가
 		updateButtonsStates();
 		try {
-			playSound_click();                  //리팩토링13
+			playSound_click("click.wav");
 		} catch (MalformedURLException ex) {
 			Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (LineUnavailableException|UnsupportedAudioFileException|IOException ex) {           //리팩토링5
+		} catch (LineUnavailableException ex) {
+			Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (UnsupportedAudioFileException ex) {
+			Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (IOException ex) {
 			Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		if (minefield.isGameFinished()) {
@@ -69,33 +83,43 @@ public class GameWindow extends javax.swing.JFrame {
 				minefield.revealMines();
 				updateButtonsStates();
 				try {
-					playSound_bomb();
-					playSound_over();
+					playSound_bomb("bomb.wav");
+					playSound_over("over.wav");
 				} catch (MalformedURLException ex) {
 					Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-				} catch (LineUnavailableException|UnsupportedAudioFileException|IOException ex) {           //리팩토링5
-                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-                }
+				} catch (LineUnavailableException ex) {
+					Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (UnsupportedAudioFileException ex) {
+					Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (IOException ex) {
+					Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+				}
 				JOptionPane.showMessageDialog(null, "Oh, a mine broke", // 게임 실패
 						"Lost!", JOptionPane.INFORMATION_MESSAGE);
 				int result = JOptionPane.showConfirmDialog(null, "Retry?", "Retry", JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.YES_OPTION) {
 					new GameWindow(new Minefield(minefield.getWidth(), minefield.getHeight(), minefield.getNumMines()),
 							timerecord, clickrecord).setVisible(true);
+				} else {
 				}
 			} else {
 				try {
-					playSound_win();
+					playSound_win("win.wav");
 				} catch (MalformedURLException ex) {
 					Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-				} catch (LineUnavailableException|UnsupportedAudioFileException|IOException ex) {           //리팩토링5
-                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-                }
+				} catch (LineUnavailableException ex) {
+					Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (UnsupportedAudioFileException ex) {
+					Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (IOException ex) {
+					Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+				}
 				JOptionPane.showMessageDialog(null, "Congratulations\n. You managed to discover all the mines in " // 게임
 								// 성공
 								+ (minefield.getGameDuration() / 1000) + " seconds\n" + "You Clicked " + clicknum.getText(),
 						"victory", JOptionPane.INFORMATION_MESSAGE);
-
+//					long a = minefield.getGameDuration();
+//					long b = record.getScore();
 				boolean newRecord = minefield.getGameDuration() < timerecord.getScore();
 				if (newRecord) { // 기록 갱신
 					String name = JOptionPane.showInputDialog("Enter your name");
@@ -138,12 +162,43 @@ public class GameWindow extends javax.swing.JFrame {
 
 		ActionListener action = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (minefield.isGameFinished()) {		//리팩토링4
+				if (minefield.isGameFinished() == true) {
 					th.interrupt();		//타이머 종료
 				}
 			}
 		};
 
+//        ActionListener action = new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {	//버튼 누르면?
+////                ButtonMinefield button = (ButtonMinefield) e.getSource();	//버튼 좌표 얻기
+////                int x = button.getCol();
+////                int y = button.getLine();
+////                minefield.revealGrid(x, y);
+////                updateButtonsStates();
+////                if (minefield.isGameFinished()) {
+////                    if (minefield.isPlayerDefeated()) {
+////                        JOptionPane.showMessageDialog(null, "Oh, a mine broke",		//게임 실패
+////                                "Lost!", JOptionPane.INFORMATION_MESSAGE);
+////                    } else {
+////                        JOptionPane.showMessageDialog(null, "Congratulations. You managed to discover all the mines in "		//게임 성공
+////                                + (minefield.getGameDuration() / 1000) + " seconds",
+////                                "victory", JOptionPane.INFORMATION_MESSAGE
+////                        );
+////                        long a = minefield.getGameDuration();
+////                        long b = record.getScore();
+////                        boolean newRecord = minefield.getGameDuration() < record.getScore();
+////
+////                        if (newRecord) {			//기록 갱신
+////                            String name = JOptionPane.showInputDialog("Enter your name");
+////                            if(name != "")
+////                                record.setRecord(name, minefield.getGameDuration());
+////                        }
+////                    }
+////                    setVisible(false);
+////                }
+//            }
+//        };
 
 		MouseListener mouseListener = new MouseListener() {
 
@@ -162,23 +217,27 @@ public class GameWindow extends javax.swing.JFrame {
 					ClickPoints +=1;				//클릭수 증가
 					int x = botao.getCol();
 					int y = botao.getLine();
-					if (minefield.getGridState(x, y) == Minefield.COVERED) {                    //리팩토링12
+					if (minefield.getGridState(x, y) == minefield.COVERED) {
 						minesleft.setText(String.valueOf(Integer.valueOf(minesleft.getText()) - 1));	//남은 지뢰개수 감소
 						minefield.setMineMarked(x, y);
-					} else if (minefield.getGridState(x, y) == Minefield.MARKED) {
+					} else if (minefield.getGridState(x, y) == minefield.MARKED) {
 						minesleft.setText(String.valueOf(Integer.valueOf(minesleft.getText()) + 1));	//남은 지뢰개수 감소
 						minefield.setMineQuestion(x, y);
-					} else if (minefield.getGridState(x, y) == Minefield.QUESTION) {
+					} else if (minefield.getGridState(x, y) == minefield.QUESTION) {
 						minefield.setMineCovered(x, y);
 					}
 					updateButtonsStates();
 					try {
-						playSound_flag();
+						playSound_flag("flag_mine.wav");
 					} catch (MalformedURLException ex) {
 						Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-					} catch (LineUnavailableException|UnsupportedAudioFileException|IOException ex) {           //리팩토링5
-                        Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+					} catch (LineUnavailableException ex) {
+						Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+					} catch (UnsupportedAudioFileException ex) {
+						Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+					} catch (IOException ex) {
+						Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+					}
 				} else if (e.getButton() == MouseEvent.BUTTON1) {
 					mouseLeft(e);
 				}
@@ -187,22 +246,18 @@ public class GameWindow extends javax.swing.JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent me) {
-                throw new UnsupportedOperationException();      //리팩토링1
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent me) {
-                throw new UnsupportedOperationException();      //리팩토링1
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent me) {
-                throw new UnsupportedOperationException();      //리팩토링1
 			}
 
 			@Override
 			public void mouseExited(MouseEvent me) {
-                throw new UnsupportedOperationException();      //리팩토링1
 			}
 		};
 
@@ -224,13 +279,13 @@ public class GameWindow extends javax.swing.JFrame {
 					buttons[x + 1][y].requestFocus();
 				} else if (e.getKeyCode() == KeyEvent.VK_M) {
 					clicknum.setText(String.valueOf(Integer.valueOf(clicknum.getText()) + 1));	//클릭 수 증가
-					if (minefield.getGridState(x, y) == Minefield.COVERED) {                //리팩토링12
+					if (minefield.getGridState(x, y) == minefield.COVERED) {
 						minesleft.setText(String.valueOf(Integer.valueOf(minesleft.getText()) - 1));	//남은 지뢰개수 감소
 						minefield.setMineMarked(x, y);
-					} else if (minefield.getGridState(x, y) == Minefield.MARKED) {
+					} else if (minefield.getGridState(x, y) == minefield.MARKED) {
 						minesleft.setText(String.valueOf(Integer.valueOf(minesleft.getText()) + 1));	//남은 지뢰개수 증가
 						minefield.setMineQuestion(x, y);
-					} else if (minefield.getGridState(x, y) == Minefield.QUESTION) {
+					} else if (minefield.getGridState(x, y) == minefield.QUESTION) {
 						minefield.setMineCovered(x, y);
 					}
 					updateButtonsStates();
@@ -242,12 +297,10 @@ public class GameWindow extends javax.swing.JFrame {
 
 			@Override
 			public void keyTyped(KeyEvent ke) {
-                throw new UnsupportedOperationException();      //리팩토링1
 			}
 
 			@Override
 			public void keyReleased(KeyEvent ke) {
-                throw new UnsupportedOperationException();      //리팩토링1
 			}
 		};
 
@@ -263,10 +316,8 @@ public class GameWindow extends javax.swing.JFrame {
 		}
 	}
 
-	String path = System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/";            //리팩토링3
-
-	public void playSound_click() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path +"click.wav");
+	public void playSound_click(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" +"click.wav");
 
 		Clip clip = AudioSystem.getClip();
 
@@ -276,8 +327,8 @@ public class GameWindow extends javax.swing.JFrame {
 		clip.start();
 	}
 
-	public void playSound_flag() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path +"flag_mine.wav");
+	public void playSound_flag(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" +"flag_mine.wav");
 		Clip clip = AudioSystem.getClip();
 
 		AudioInputStream ais = AudioSystem.
@@ -287,8 +338,8 @@ public class GameWindow extends javax.swing.JFrame {
 	}
 
 
-	public void playSound_bomb() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path + "bomb.wav");
+	public void playSound_bomb(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" + "bomb.wav");
 		Clip clip = AudioSystem.getClip();
 
 		AudioInputStream ais = AudioSystem.
@@ -297,8 +348,8 @@ public class GameWindow extends javax.swing.JFrame {
 		clip.start();
 	}
 
-	public void playSound_win() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path + "win.wav");
+	public void playSound_win(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" + "win.wav");
 		Clip clip = AudioSystem.getClip();
 
 		AudioInputStream ais = AudioSystem.
@@ -306,8 +357,8 @@ public class GameWindow extends javax.swing.JFrame {
 		clip.open(ais);
 		clip.start();
 	}
-	public void playSound_over() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path + "over.wav");
+	public void playSound_over(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" + "over.wav");
 		Clip clip = AudioSystem.getClip();
 
 		AudioInputStream ais = AudioSystem.
@@ -385,7 +436,16 @@ public class GameWindow extends javax.swing.JFrame {
 					break;
 				}
 			}
-		} catch (ClassNotFoundException|InstantiationException|IllegalAccessException|javax.swing.UnsupportedLookAndFeelException ex) {     //리팩토링5
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+					ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+					ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+					ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
 			java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
 					ex);
 		}
