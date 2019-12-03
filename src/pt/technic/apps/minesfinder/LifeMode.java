@@ -99,7 +99,7 @@ public class LifeMode extends javax.swing.JFrame {
 		}
 	}
 
-	public LifeMode(Minefield minefield) {
+	public LifeMode(Minefield minefield) {	// しいしい
 
 		initComponents();
 

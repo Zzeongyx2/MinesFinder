@@ -90,7 +90,6 @@ public class Minefield {
             }
 
             if (mines[x][y]) {
-//                revealMines();
                 playerDefeated = true;
                 gameFinished = true;
             	states[x][y] = BUSTED;
@@ -109,7 +108,7 @@ public class Minefield {
                 gameFinished=true;
                 playerDefeated=false;
                 timeGameDuration=System.currentTimeMillis()-timeGameStarted;
-                return;
+                        //∏Æ∆—≈‰∏µ4( return;¥¬ ±ª¿Ã æµ« ø‰ æ¯¿Ω)
             }
         }
     }
@@ -123,13 +122,9 @@ public class Minefield {
             }
 
             if (mines[x][y]) {
-//                revealMines();
-//                playerDefeated = false;
-//                gameFinished = false;
             	states[x][y] = BUSTED;
             	life = life-1;
-//                timeGameDuration=System.currentTimeMillis()-timeGameStarted;
-                return;
+                //∏Æ∆—≈‰∏µ4
             }
 
             int minesAround = countMinesAround(x, y);
@@ -143,7 +138,7 @@ public class Minefield {
                 gameFinished=true;
                 playerDefeated=false;
                 timeGameDuration=System.currentTimeMillis()-timeGameStarted;
-                return;
+                //∏Æ∆—≈‰∏µ4
             }
         }
     }
@@ -152,7 +147,7 @@ public class Minefield {
     	playerDefeated = true;
     	gameFinished = true;
     	timeGameDuration=System.currentTimeMillis()-timeGameStarted;
-    	return;
+    	//∏Æ∆—≈‰∏µ4
     }
 
     

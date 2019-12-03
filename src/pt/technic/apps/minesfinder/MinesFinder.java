@@ -16,7 +16,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *
@@ -31,6 +31,15 @@ public class MinesFinder extends javax.swing.JFrame {
 	private RecordTable recordMediumClick;
 	private RecordTable recordHardClick;
 	private static Clip clip;
+
+	JTextField widthtext = new JTextField(2);
+	JTextField heighttext = new JTextField(2);
+	JTextField minestext = new JTextField(2);
+	JTextField lifetext = new JTextField(2);
+
+	JTextField userwidthtext = new JTextField(2);
+	JTextField userheighttext = new JTextField(2);
+	JTextField userminestext = new JTextField(2);
 
 	/**
 	 * Creates new form MinesFinder
@@ -232,6 +241,32 @@ public class MinesFinder extends javax.swing.JFrame {
 		btnUser = new javax.swing.JButton();
 		btnMulti = new javax.swing.JButton();
 		btnPractice = new javax.swing.JButton();
+		userfield = new javax.swing.JPanel();
+		practicefield = new javax.swing.JPanel();
+
+
+		practicefield.add(new JLabel("width"));				//연습모드 옵션페인
+		practicefield.add(widthtext);
+		practicefield.add(Box.createHorizontalStrut(2));
+		practicefield.add(new JLabel("height"));
+		practicefield.add(heighttext);
+		practicefield.add(Box.createHorizontalStrut(2));
+		practicefield.add(new JLabel("miens"));
+		practicefield.add(minestext);
+		practicefield.add(Box.createHorizontalStrut(2));
+		practicefield.add(new JLabel("lifes"));
+		practicefield.add(lifetext);
+		practicefield.add(Box.createHorizontalStrut(2));
+
+		userfield.add(new JLabel("width"));				//유저모드 옵션페인
+		userfield.add(userwidthtext);
+		userfield.add(Box.createHorizontalStrut(2));
+		userfield.add(new JLabel("height"));
+		userfield.add(userheighttext);
+		userfield.add(Box.createHorizontalStrut(2));
+		userfield.add(new JLabel("miens"));
+		userfield.add(userminestext);
+		userfield.add(Box.createHorizontalStrut(2));
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle("MinesFinder");
@@ -281,16 +316,6 @@ public class MinesFinder extends javax.swing.JFrame {
 		labelHardClick.setText("Click:");
 		labelHardClickName.setText("Player");
 		labelHardClickPoints.setText("9999");
-		
-//		
-//		//클릭수,시간랭킹 라벨
-//		labelClick.setText("Click:");
-//		labelMediumClick.setText("Click:");
-//		labelHardClick.setText("Click:");
-//		labelTime.setText("Time:");
-//		labelMediumTime.setText("Time:");
-//		labelHardTime.setText("Time:");
-		
 		
 		
 		//레코드 테이블 부분 컴포넌트들
@@ -412,7 +437,7 @@ public class MinesFinder extends javax.swing.JFrame {
 		panelBtns.add(btnHard);
 
 		btnMulti = new javax.swing.JButton();
-		; // 2인용 모드 버튼 추가
+		 // 2인용 모드 버튼 추가
 
 		btnMulti.setText("MultiPlayersMode");
 		btnMulti.addActionListener(new java.awt.event.ActionListener() {
@@ -482,33 +507,40 @@ public class MinesFinder extends javax.swing.JFrame {
 
 	}// GEN-LAST:event_btnHardActionPerformed
 
+
+
 	private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHardActionPerformed
-		String x = JOptionPane.showInputDialog(null, "행");
-		String y = JOptionPane.showInputDialog(null, "열");
-		String n = JOptionPane.showInputDialog(null, "지뢰개수");
-		UserMode usermode = new UserMode(new Minefield(Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(n)));
-		usermode.setVisible(true);
-		stop_bgm();
+		int result = JOptionPane.showConfirmDialog(null, userfield, "UserMode Setting", JOptionPane.YES_OPTION);
+		if(result == JOptionPane.YES_OPTION) {
+			UserMode usermode = new UserMode(new Minefield(Integer.parseInt(userwidthtext.getText()), Integer.parseInt(userheighttext.getText()), Integer.parseInt(userminestext.getText())));
+			usermode.setVisible(true);
+			stop_bgm();
+		}
+
 	}// GEN-LAST:event_btnHardActionPerformed
 	
 	private void btnPracticeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnHardActionPerformed
-		String x = JOptionPane.showInputDialog(null, "행");
-		String y = JOptionPane.showInputDialog(null, "열");
-		String n = JOptionPane.showInputDialog(null, "지뢰개수");
-		String l = JOptionPane.showInputDialog(null, "라이프 수");
-		if(Integer.parseInt(l)<Integer.parseInt(n)) {
-		PracticeMode practicemode = new PracticeMode(new Minefield(Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(n),Integer.parseInt(l)));
-		practicemode.setVisible(true);
-		stop_bgm();
+		int result = JOptionPane.showConfirmDialog(null, practicefield, "PracticeMode Setting", JOptionPane.YES_OPTION);
+		if(result == JOptionPane.YES_OPTION) {
+			if (Integer.parseInt(minestext.getText()) > Integer.parseInt(lifetext.getText())) {
+				PracticeMode practicemode = new PracticeMode(new Minefield(Integer.parseInt(widthtext.getText()), Integer.parseInt(heighttext.getText()),
+																			Integer.parseInt(minestext.getText()), Integer.parseInt(lifetext.getText())));
+				practicemode.setVisible(true);
+				stop_bgm();
+			}
+			else{
+				throw new IllegalArgumentException("라이프 수가 지뢰 개수보다 작아야합니다.");
+			}
 		}
 		else {
 			JOptionPane.showMessageDialog(null,"지뢰개수보다 라이프 수가 작아야합니다.");
 		}
+
 	}// GEN-LAST:event_btnHardActionPerformed
 
-	/**
-	 * @param args the command line arguments
-	 */
+//	/**
+//	 * @param args the command line arguments
+//	 */
 
 	public static void stop_bgm() {
 		clip.stop();
@@ -603,5 +635,8 @@ public class MinesFinder extends javax.swing.JFrame {
 	private javax.swing.JPanel panelBtns;
 	private javax.swing.JPanel panelRecords;
 	private javax.swing.JLabel panelTitle;
+	private javax.swing.JPanel userfield;
+	private javax.swing.JPanel practicefield;
+
 	// End of variables declaration//GEN-END:variables
 }

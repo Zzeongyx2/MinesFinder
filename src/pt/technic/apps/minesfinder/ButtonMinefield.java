@@ -1,9 +1,8 @@
 package pt.technic.apps.minesfinder;
 
-import java.awt.Color;
+import java.awt.Color;						//리팩토링6
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 
 import javax.swing.JButton;
 
@@ -12,11 +11,14 @@ import javax.swing.JButton;
  * @author Gabriel Massadas
  */
 public class ButtonMinefield extends JButton {
-	private int state, col, line;
+	private int state;			//리팩토링7
+	private int col;
+	private int line;
 
 	public ButtonMinefield(int col, int line) {
     	addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent arg0) {
+				throw new UnsupportedOperationException();	//자동 메소드 호출(나중에 필요시에 그냥 넘어가면 안되서 미리 방지)		//리팩토링1
     		}
     	});
         this.col = col;
