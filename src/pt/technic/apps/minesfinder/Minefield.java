@@ -25,17 +25,17 @@ public class Minefield {
     private boolean firstPlay;
     private boolean playerDefeated;
     private boolean gameFinished;
-    
+
     private long timeGameStarted;
     private long timeGameDuration;
-    
+
     private int life;
 
     public Minefield(int width, int height, int numMines) {
         if(numMines<=0){
             throw new IllegalArgumentException("Mines nuumber must be bigger than 0");
         }
-        
+
         this.width = width;
         this.height = height;
         this.numMines = numMines;
@@ -54,12 +54,12 @@ public class Minefield {
             }
         }
     }
-    
+
     public Minefield(int width, int height, int numMines, int life) {
         if(numMines<=0){
             throw new IllegalArgumentException("Mines nuumber must be bigger than 0");
         }
-        
+
         this.width = width;
         this.height = height;
         this.numMines = numMines;
@@ -77,7 +77,7 @@ public class Minefield {
                 states[x][y] = COVERED;
             }
         }
-        
+
         this.life = life;
     }
 
@@ -92,7 +92,7 @@ public class Minefield {
             if (mines[x][y]) {
                 playerDefeated = true;
                 gameFinished = true;
-            	states[x][y] = BUSTED;
+                states[x][y] = BUSTED;
                 timeGameDuration=System.currentTimeMillis()-timeGameStarted;
                 return;
             }
@@ -103,16 +103,16 @@ public class Minefield {
             if (minesAround == 0) {		//주변에 지뢰가 없으면 그 주변도 보여주게
                 revealGridNeighbors(x, y);
             }
-            
+
             if(checkVictory()) {
                 gameFinished=true;
                 playerDefeated=false;
                 timeGameDuration=System.currentTimeMillis()-timeGameStarted;
-                        //리팩토링4( return;는 굳이 쓸필요 없음)
+                            //리팩토링9
             }
         }
     }
-    
+
     public void revealGrid2(int x, int y) {
         if (states[x][y] == COVERED && !gameFinished) {
             if (firstPlay) {
@@ -122,9 +122,9 @@ public class Minefield {
             }
 
             if (mines[x][y]) {
-            	states[x][y] = BUSTED;
-            	life = life-1;
-                //리팩토링4
+                states[x][y] = BUSTED;
+                life = life-1;
+                return;
             }
 
             int minesAround = countMinesAround(x, y);
@@ -133,30 +133,30 @@ public class Minefield {
             if (minesAround == 0) {		//주변에 지뢰가 없으면 그 주변도 보여주게
                 revealGridNeighbors(x, y);
             }
-            
+
             if(checkVictory()) {
                 gameFinished=true;
                 playerDefeated=false;
                 timeGameDuration=System.currentTimeMillis()-timeGameStarted;
-                //리팩토링4
+                   //리팩토링9
             }
         }
     }
-    
-    public void FinishGame() {
-    	playerDefeated = true;
-    	gameFinished = true;
-    	timeGameDuration=System.currentTimeMillis()-timeGameStarted;
-    	//리팩토링4
+
+    public void finishGame() {      //리팩토링8
+        playerDefeated = true;
+        gameFinished = true;
+        timeGameDuration=System.currentTimeMillis()-timeGameStarted;
+                //리팩토링9
     }
 
-    
+
     public long getGameDuration(){		//플레이 시
         if(firstPlay){
             return 0;
         }
         if(!gameFinished){
-            return System.currentTimeMillis()-timeGameStarted; 
+            return System.currentTimeMillis()-timeGameStarted;
         }
         return timeGameDuration;
     }
@@ -168,15 +168,15 @@ public class Minefield {
             }
         }
     }
-    
+
     public void revealMines() {		//지뢰 다 보여주기
-    	for(int col=0; col < width; col++) {
-    		for(int line=0; line <height; line++) {
-    			if(mines[col][line]) {
-    				states[col][line] = BUSTED;
-    			}
-    		}
-    	}
+        for(int col=0; col < width; col++) {
+            for(int line=0; line <height; line++) {
+                if(mines[col][line]) {
+                    states[col][line] = BUSTED;
+                }
+            }
+        }
     }
 
     public void setMineMarked(int x, int y) {
@@ -261,9 +261,9 @@ public class Minefield {
     public int getNumMines() {
         return numMines;
     }
-    
+
     public int getLife() {
-    	return life;
+        return life;
     }
 
 }

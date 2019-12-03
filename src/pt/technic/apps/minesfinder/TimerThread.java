@@ -8,6 +8,8 @@ public class TimerThread extends Thread{
 	public TimerThread(JLabel timerLabel) {
 		this.timerLabel = timerLabel;
 	}
+
+	@Override			//오버라이드 표시(리팩토링)
 	public void run() {
 		int n = 0;
 		
@@ -18,7 +20,8 @@ public class TimerThread extends Thread{
 				Thread.sleep(1000);
 			}
 			catch(InterruptedException e) {
-				return;
+				Thread.currentThread().interrupt();			//리팩토링인데 뭔 리팩토링인지 모르겠ㅠㅠ
+				 return;
 			}
 		}
 	}
