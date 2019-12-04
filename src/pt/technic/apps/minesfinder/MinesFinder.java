@@ -480,7 +480,7 @@ public class MinesFinder extends JFrame {				//∏Æ∆—≈‰∏µ10
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void btnEasyActionPerformed(ActionEvent evt) {// GEN-FIRST:event_btnEasyActionPerformed				//∏Æ∆—≈‰∏µ10
-		GameWindow gameWindow = new GameWindow(new Minefield(9, 9, 2), recordEasy, recordClick);
+		GameWindow gameWindow = new GameWindow(new Minefield(9, 9, 10), recordEasy, recordClick);
 		gameWindow.setVisible(true);
 		stop_bgm();
 	}// GEN-LAST:event_btnEasyActionPerformed
@@ -491,13 +491,13 @@ public class MinesFinder extends JFrame {				//∏Æ∆—≈‰∏µ10
 	}// GEN-LAST:event_btnExitActionPerformed
 
 	private void btnMediumActionPerformed(ActionEvent evt) {// GEN-FIRST:event_btnMediumActionPerformed		//∏Æ∆—≈‰∏µ10
-		GameWindow gameWindow = new GameWindow(new Minefield(16, 16, 2), recordMedium, recordMediumClick);
+		GameWindow gameWindow = new GameWindow(new Minefield(16, 16, 40), recordMedium, recordMediumClick);
 		gameWindow.setVisible(true);
 		stop_bgm();
 	}// GEN-LAST:event_btnMediumActionPerformed
 
 	private void btnHardActionPerformed(ActionEvent evt) {// GEN-FIRST:event_btnHardActionPerformed		//∏Æ∆—≈‰∏µ10
-		GameWindow gameWindow = new GameWindow(new Minefield(16, 30, 2), recordHard, recordHardClick);
+		GameWindow gameWindow = new GameWindow(new Minefield(16, 30, 90), recordHard, recordHardClick);
 		gameWindow.setVisible(true);
 		stop_bgm();
 	}// GEN-LAST:event_btnHardActionPerformed

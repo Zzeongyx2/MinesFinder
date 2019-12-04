@@ -19,9 +19,9 @@ public class RecordTable implements Serializable {
     
     private transient ArrayList<RecordTableListener> listeners;
     public RecordTable() {
-        name = "abc";
+        name = "Player";
         score = 9999999;
-        clickname= "abc";
+        clickname= "Player";
         clickPoints = 9999;
         listeners = new ArrayList<>();
     }
