@@ -1,11 +1,11 @@
-package pt.technic.apps.minesfinder;
+package pt.technic.apps.minesfinder;		//∏Æ∆—≈‰∏µ6, ∏Æ∆—≈‰∏µ10
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+
 import java.awt.GridLayout;
-import java.awt.event.KeyAdapter;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -16,16 +16,13 @@ import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -130,16 +127,23 @@ public class MultiMode extends javax.swing.JFrame {
 				} else if (e.getKeyCode() == KeyEvent.VK_D && x < minefield1.getWidth() - 1) {
 					buttons[x + 1][y].requestFocus();
 				} else if (e.getKeyCode() == KeyEvent.VK_R) {
-					if (minefield1.getGridState(x, y) == minefield1.COVERED) {
+					if (minefield1.getGridState(x, y) == Minefield.COVERED) {		//∏Æ∆—≈‰∏µ12
 						minesleft1.setText(String.valueOf(Integer.valueOf(minesleft1.getText()) - 1));
 						minefield1.setMineMarked(x, y);
-					} else if (minefield1.getGridState(x, y) == minefield1.MARKED) {
+					} else if (minefield1.getGridState(x, y) == Minefield.MARKED) {
 						minesleft1.setText(String.valueOf(Integer.valueOf(minesleft1.getText()) + 1));
 						minefield1.setMineQuestion(x, y);
-					} else if (minefield1.getGridState(x, y) == minefield1.QUESTION) {
+					} else if (minefield1.getGridState(x, y) == Minefield.QUESTION) {
 						minefield1.setMineCovered(x, y);
 					}
 					updateButtonsStates1();
+					try {					//∏Æ∆—≈‰∏µ15
+						playSound_flag();
+					} catch (MalformedURLException ex) {
+						Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
+					} catch (LineUnavailableException|UnsupportedAudioFileException|IOException ex) {		//∏Æ∆—≈‰∏µ5
+						Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);		//∏Æ∆—≈‰∏µ14
+					}
 					SwingUtilities.updateComponentTreeUI(gridPanel1);
 				} else if (e.getKeyCode() == KeyEvent.VK_W) {
 					for(int i=0; i<minefield1.getWidth(); i++) {
@@ -154,15 +158,11 @@ public class MultiMode extends javax.swing.JFrame {
 						}
 					}
 					try {
-						playSound_click("click.wav");
+						playSound_click();
 					} catch (MalformedURLException ex) {
 						Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-					} catch (LineUnavailableException ex) {
-						Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-					} catch (UnsupportedAudioFileException ex) {
-						Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-					} catch (IOException ex) {
-						Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+					}  catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
+						Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
 					}
 					SwingUtilities.updateComponentTreeUI(gridPanel1);
 					updateButtonsStates1();
@@ -171,30 +171,22 @@ public class MultiMode extends javax.swing.JFrame {
 							minefield1.revealMines();
 							updateButtonsStates1();
 							try {
-								playSound_bomb("bomb.wav");
-								playSound_over("over.wav");
+								playSound_bomb();
+								playSound_over();
 							} catch (MalformedURLException ex) {
 								Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (LineUnavailableException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (UnsupportedAudioFileException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (IOException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+							}  catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
+								Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
 							}
 							JOptionPane.showMessageDialog(null, "2Player Win!", // ∞‘¿” Ω«∆–
 									"RESULT", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							try {
-								playSound_win("win.wav");
+								playSound_win();
 							} catch (MalformedURLException ex) {
 								Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (LineUnavailableException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (UnsupportedAudioFileException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (IOException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+							} catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
+								Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
 							}
 							JOptionPane.showMessageDialog(null, "1Player Win! ", "RESULT",
 									JOptionPane.INFORMATION_MESSAGE);
@@ -212,30 +204,33 @@ public class MultiMode extends javax.swing.JFrame {
 				} else if (e.getKeyCode() == KeyEvent.VK_K && x < minefield2.getWidth() - 1) {
 					buttons2[x + 1][y].requestFocus();
 				} else if (e.getKeyCode() == KeyEvent.VK_O) {
-					try {
-						playSound_click("click.wav");
+					try {					//∏Æ∆—≈‰∏µ15
+						playSound_flag();
 					} catch (MalformedURLException ex) {
 						Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-					} catch (LineUnavailableException ex) {
-						Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-					} catch (UnsupportedAudioFileException ex) {
-						Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-					} catch (IOException ex) {
-						Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+					} catch (LineUnavailableException|UnsupportedAudioFileException|IOException ex) {        //∏Æ∆—≈‰∏µ5
+						Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);        //∏Æ∆—≈‰∏µ14
 					}
-					if (minefield2.getGridState(x, y) == minefield2.COVERED) {
+					if (minefield2.getGridState(x, y) == Minefield.COVERED) {			//∏Æ∆—≈‰∏µ12
 						minesleft2.setText(String.valueOf(Integer.valueOf(minesleft2.getText()) - 1));
 						minefield2.setMineMarked(x, y);
-					} else if (minefield2.getGridState(x, y) == minefield2.MARKED) {
+					} else if (minefield2.getGridState(x, y) == Minefield.MARKED) {
 						minesleft2.setText(String.valueOf(Integer.valueOf(minesleft2.getText()) + 1));
 						minefield2.setMineQuestion(x, y);
-					} else if (minefield2.getGridState(x, y) == minefield2.QUESTION) {
+					} else if (minefield2.getGridState(x, y) == Minefield.QUESTION) {
 						minefield2.setMineCovered(x, y);
 					}
 					updateButtonsStates2();
 					SwingUtilities.updateComponentTreeUI(gridPanel2);
 
 				} else if (e.getKeyCode() == KeyEvent.VK_U) {
+					try {
+						playSound_click();
+					} catch (MalformedURLException ex) {
+						Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
+					}  catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
+						Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
+					}
 					for(int i=0; i<minefield2.getWidth(); i++) {
 						for(int j=0; j<minefield2.getHeight();j++) {
 							buttons2[i][j].setFocusable(false);
@@ -254,30 +249,22 @@ public class MultiMode extends javax.swing.JFrame {
 							minefield2.revealMines();
 							updateButtonsStates2();
 							try {
-								playSound_bomb("bomb.wav");
-								playSound_over("over.wav");
+								playSound_bomb();
+								playSound_over();
 							} catch (MalformedURLException ex) {
 								Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (LineUnavailableException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (UnsupportedAudioFileException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (IOException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+							} catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
+								Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
 							}
 							JOptionPane.showMessageDialog(null, "1Player Win!", // ∞‘¿” Ω«∆–
 									"RESULT", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							try {
-								playSound_win("win.wav");
+								playSound_win();
 							} catch (MalformedURLException ex) {
 								Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (LineUnavailableException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (UnsupportedAudioFileException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (IOException ex) {
-								Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+							}  catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
+								Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
 							}
 							JOptionPane.showMessageDialog(null, "2Player Win! ", "RESULT",
 									JOptionPane.INFORMATION_MESSAGE);
@@ -335,8 +322,10 @@ public class MultiMode extends javax.swing.JFrame {
 		}
 	}
 
-	public void playSound_click(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" +"click.wav");
+	String path =System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/";		 //∏Æ∆—≈‰∏µ3
+
+	public void playSound_click() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(path+"click.wav");		//∏Æ∆—≈‰∏µ13
 
 		Clip clip = AudioSystem.getClip();
 
@@ -346,8 +335,8 @@ public class MultiMode extends javax.swing.JFrame {
 		clip.start();
 	}
 
-	public void playSound_flag(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" +"flag_mine.wav");
+	public void playSound_flag() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(path +"flag_mine.wav");
 		Clip clip = AudioSystem.getClip();
 
 		AudioInputStream ais = AudioSystem.
@@ -357,8 +346,8 @@ public class MultiMode extends javax.swing.JFrame {
 	}
 
 
-	public void playSound_bomb(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" + "bomb.wav");
+	public void playSound_bomb() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(path + "bomb.wav");
 		Clip clip = AudioSystem.getClip();
 
 		AudioInputStream ais = AudioSystem.
@@ -367,8 +356,8 @@ public class MultiMode extends javax.swing.JFrame {
 		clip.start();
 	}
 
-	public void playSound_win(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" + "win.wav");
+	public void playSound_win() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(path + "win.wav");
 		Clip clip = AudioSystem.getClip();
 
 		AudioInputStream ais = AudioSystem.
@@ -376,8 +365,8 @@ public class MultiMode extends javax.swing.JFrame {
 		clip.open(ais);
 		clip.start();
 	}
-	public void playSound_over(String string) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/" + "over.wav");
+	public void playSound_over() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		File url = new File(path + "over.wav");
 		Clip clip = AudioSystem.getClip();
 
 		AudioInputStream ais = AudioSystem.
@@ -458,18 +447,8 @@ public class MultiMode extends javax.swing.JFrame {
 					break;
 				}
 			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(MultiMode.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(MultiMode.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(MultiMode.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(MultiMode.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {		//∏Æ∆—≈‰∏µ5
+			java.util.logging.Logger.getLogger(MultiMode.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 		// </editor-fold>
 

@@ -232,7 +232,13 @@ public class GameWindow extends javax.swing.JFrame {
 						minefield.setMineQuestion(x, y);
 					} else if (minefield.getGridState(x, y) == Minefield.QUESTION) {
 						minefield.setMineCovered(x, y);
-					}
+					}try {              //∏Æ∆—≈‰∏µ15
+                        playSound_flag();
+                    } catch (MalformedURLException ex) {
+                        Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (LineUnavailableException|UnsupportedAudioFileException|IOException ex) {		//∏Æ∆—≈‰∏µ5
+                        Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 					updateButtonsStates();
 				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 					pressedLeft(x, y);
