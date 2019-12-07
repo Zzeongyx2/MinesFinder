@@ -17,7 +17,6 @@ public class ButtonMinefield extends JButton {
 	public ButtonMinefield(int col, int line) {
     	addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent arg0) {
-				throw new UnsupportedOperationException();	//자동 메소드 호출(나중에 필요시에 그냥 넘어가면 안되서 미리 방지)		//리팩토링1
     		}
     	});
         this.col = col;

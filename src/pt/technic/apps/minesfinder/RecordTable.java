@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class RecordTable implements Serializable {
 
-    private transient static final int MAX_CHAR = 10;
+    private static final transient int MAX_CHAR = 10;
     
     private String name;
     private long score;
