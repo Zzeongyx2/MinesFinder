@@ -18,6 +18,7 @@ public class RecordTable implements Serializable {
     private int clickPoints;        //리팩토링8
     
     private transient ArrayList<RecordTableListener> listeners;
+
     public RecordTable() {
         name = "Player";
         score = 9999999;
@@ -26,6 +27,9 @@ public class RecordTable implements Serializable {
         listeners = new ArrayList<>();
     }
     public String getClickname() {
+        if(clickname == null){
+            return "nobody";
+        }else
     	return clickname;
     }
     
@@ -35,7 +39,10 @@ public class RecordTable implements Serializable {
     
     
     public String getName() {
-        return name.substring(0, Math.min(MAX_CHAR, name.length()));
+        if(name == null) {
+            return "nodody";
+        }else
+            return name.substring(0, Math.min(MAX_CHAR, name.length()));
     }
 
     public long getScore() {
@@ -43,7 +50,7 @@ public class RecordTable implements Serializable {
     }
 
     //클릭수 레코드 업데이트
-    public void setClickRecord(String clickname,int clickPoints) {
+    public void setClickRecord(String clickname, int clickPoints) {
     	if(clickPoints<this.clickPoints) {
     		this.clickname=clickname;
     		this.clickPoints=clickPoints;
@@ -53,6 +60,10 @@ public class RecordTable implements Serializable {
     
     //타임 레코드 업데이트 
     public void setRecord(String name, long score) {
+        if( name == null) {
+            this.name = "NOBODY";
+            notifyRecordTableUpdated();
+        }
         if (score < this.score) {
             this.name = name;
             this.score = score;
