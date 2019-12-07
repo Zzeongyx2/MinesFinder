@@ -22,10 +22,5 @@ public class GameSound {
             Logger.getLogger(GameSound.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-
-    public void StopSound() {
-        clip.stop();
-        clip.close();
-    }
 }
 

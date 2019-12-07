@@ -24,51 +24,51 @@ public class MinesFinder extends JFrame {				//∏Æ∆—≈‰∏µ10
 
 	GameSound bgm = new GameSound();
 
-	JTextField widthtext = new JTextField(2);
-	JTextField heighttext = new JTextField(2);
-	JTextField minestext = new JTextField(2);
-	JTextField lifetext = new JTextField(2);
+	private JTextField widthtext = new JTextField(2);
+	private JTextField heighttext = new JTextField(2);
+	private JTextField minestext = new JTextField(2);
+	private JTextField lifetext = new JTextField(2);
 
-	JTextField userwidthtext = new JTextField(2);
-	JTextField userheighttext = new JTextField(2);
-	JTextField userminestext = new JTextField(2);
+	private JTextField userwidthtext = new JTextField(2);
+	private JTextField userheighttext = new JTextField(2);
+	private JTextField userminestext = new JTextField(2);
 
-	JLabel panelTitle = new JLabel();		//∏Æ∆—≈‰∏µ10, ∏Æ∆—≈‰∏µ11
-	JPanel panelRecords = new JPanel();
-	JLabel records = new JLabel();			//∏Æ∆—≈‰∏µ8
-	JLabel labelEasy = new JLabel();
-	JLabel labelEasyName = new JLabel();
-	JLabel labelEasyPoints = new JLabel();
-	JLabel labelMedium = new JLabel();
-	JLabel labelMediumName = new JLabel();
-	JLabel labelMediumPoints = new JLabel();
-	JLabel labelHard = new JLabel();
-	JLabel labelHardName = new JLabel();
-	JLabel labelHardPoints = new JLabel();
+	private JLabel panelTitle = new JLabel();		//∏Æ∆—≈‰∏µ10, ∏Æ∆—≈‰∏µ11
+	private JPanel panelRecords = new JPanel();
+	private JLabel records = new JLabel();			//∏Æ∆—≈‰∏µ8
+	private JLabel labelEasy = new JLabel();
+	private JLabel labelEasyName = new JLabel();
+	private JLabel labelEasyPoints = new JLabel();
+	private JLabel labelMedium = new JLabel();
+	private JLabel labelMediumName = new JLabel();
+	private JLabel labelMediumPoints = new JLabel();
+	private JLabel labelHard = new JLabel();
+	private JLabel labelHardName = new JLabel();
+	private JLabel labelHardPoints = new JLabel();
 
-	JLabel labelClick = new JLabel();
-	JLabel labelMediumClick = new JLabel();
-	JLabel labelHardClick = new JLabel();
-	JLabel labelClickName = new JLabel();
-	JLabel labelClickPoints = new JLabel();
-	JLabel labelTime = new JLabel();
-	JLabel labelMediumTime = new JLabel();
-	JLabel labelHardTime = new JLabel();
-	JLabel labelMediumClickName = new JLabel();
-	JLabel labelMediumClickPoints = new JLabel();
-	JLabel labelHardClickName = new JLabel();
-	JLabel labelHardClickPoints = new JLabel();
+	private JLabel labelClick = new JLabel();
+	private JLabel labelMediumClick = new JLabel();
+	private JLabel labelHardClick = new JLabel();
+	private JLabel labelClickName = new JLabel();
+	private JLabel labelClickPoints = new JLabel();
+	private JLabel labelTime = new JLabel();
+	private JLabel labelMediumTime = new JLabel();
+	private JLabel labelHardTime = new JLabel();
+	private JLabel labelMediumClickName = new JLabel();
+	private JLabel labelMediumClickPoints = new JLabel();
+	private JLabel labelHardClickName = new JLabel();
+	private JLabel labelHardClickPoints = new JLabel();
 
-	JPanel panelBtns = new JPanel();
-	JButton btnEasy = new JButton();
-	JButton btnMedium = new JButton();
-	JButton btnHard = new JButton();
-	JButton btnExit = new JButton();
-	JButton btnUser = new JButton();
-	JButton btnMulti = new JButton();
-	JButton btnPractice = new JButton();
-	JPanel userfield = new JPanel();
-	JPanel practicefield = new JPanel();
+	private JPanel panelBtns = new JPanel();
+	private JButton btnEasy = new JButton();
+	private JButton btnMedium = new JButton();
+	private JButton btnHard = new JButton();
+	private JButton btnExit = new JButton();
+	private JButton btnUser = new JButton();
+	private JButton btnMulti = new JButton();
+	private JButton btnPractice = new JButton();
+	private JPanel userfield = new JPanel();
+	private JPanel practicefield = new JPanel();
 
 	/**
 	 * Creates new form MinesFinder
@@ -80,7 +80,7 @@ public class MinesFinder extends JFrame {				//∏Æ∆—≈‰∏µ10
 		recordHard = new RecordTable();
 		recordClick = new RecordTable();
 		recordMediumClick = new RecordTable();
-		recordHardClick =new RecordTable();
+		recordHardClick = new RecordTable();
 		
 		readGameRecords();
 
@@ -460,7 +460,6 @@ public class MinesFinder extends JFrame {				//∏Æ∆—≈‰∏µ10
 	private void btnEasyActionPerformed(ActionEvent evt) {// GEN-FIRST:event_btnEasyActionPerformed				//∏Æ∆—≈‰∏µ10
 		GameWindow gameWindow = new GameWindow(new Minefield(9, 9, 10), recordEasy, recordClick);
 		gameWindow.setVisible(true);
-		bgm.StopSound();
 	}// GEN-LAST:event_btnEasyActionPerformed
 
 	
@@ -471,21 +470,17 @@ public class MinesFinder extends JFrame {				//∏Æ∆—≈‰∏µ10
 	private void btnMediumActionPerformed(ActionEvent evt) {// GEN-FIRST:event_btnMediumActionPerformed		//∏Æ∆—≈‰∏µ10
 		GameWindow gameWindow = new GameWindow(new Minefield(16, 16, 40), recordMedium, recordMediumClick);
 		gameWindow.setVisible(true);
-		bgm.StopSound();
 	}// GEN-LAST:event_btnMediumActionPerformed
 
 	private void btnHardActionPerformed(ActionEvent evt) {// GEN-FIRST:event_btnHardActionPerformed		//∏Æ∆—≈‰∏µ10
 		GameWindow gameWindow = new GameWindow(new Minefield(16, 30, 90), recordHard, recordHardClick);
 		gameWindow.setVisible(true);
-		bgm.StopSound();
 	}// GEN-LAST:event_btnHardActionPerformed
 
 	private void btnMultiActionPerformed(ActionEvent evt) {// GEN-FIRST:event_btnHardActionPerformed //∏÷∆º		//∏Æ∆—≈‰∏µ10
 																			// πˆ∆∞ æÓµ∑Œ ∞°¥¬¡ˆ
 		MultiMode multimode = new MultiMode(new Minefield(9, 9, 10), new Minefield(9, 9, 10));
 		multimode.setVisible(true);
-		bgm.StopSound();
-
 	}// GEN-LAST:event_btnHardActionPerformed
 
 
@@ -500,7 +495,6 @@ public class MinesFinder extends JFrame {				//∏Æ∆—≈‰∏µ10
 					System.exit(0);
 				} else {
 					usermode.setVisible(true);
-					bgm.StopSound();
 				}
 			}
 		}catch (NumberFormatException ex){
@@ -522,7 +516,6 @@ public class MinesFinder extends JFrame {				//∏Æ∆—≈‰∏µ10
 						System.exit(0);
 					} else {
 						practicemode.setVisible(true);
-						bgm.StopSound();
 					}
 				}
 			} else {
@@ -579,9 +572,6 @@ public class MinesFinder extends JFrame {				//∏Æ∆—≈‰∏µ10
 			}
 		});
 	}
-
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-
-
 	// End of variables declaration//GEN-END:variables
 }

@@ -68,14 +68,14 @@ public class GameWindow extends javax.swing.JFrame {
 						"victory", JOptionPane.INFORMATION_MESSAGE);
 				boolean newRecord = minefield.getGameDuration() < timerecord.getScore();
 				if (newRecord) { // 기록 갱신
-					String name = JOptionPane.showInputDialog("Enter your name");
+					String name = JOptionPane.showInputDialog("Enter your name", "Time New Record");
 					if (name != "")
 						timerecord.setRecord(name, minefield.getGameDuration());
 				}
 
 				boolean newClickRecord = clickPoints < clickrecord.getClickPoints();
 				if(newClickRecord) {
-					String clickname =  JOptionPane.showInputDialog("Enter your Clickname");		//리팩토링8
+					String clickname =  JOptionPane.showInputDialog("Enter your Clickname", "Click New Record");		//리팩토링8
 					if (clickname != "")
 						clickrecord.setClickRecord(clickname, clickPoints);
 				}
