@@ -1,25 +1,13 @@
 
 package pt.technic.apps.minesfinder;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;		//리팩토링10
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
+import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.*;		//리팩토링10
 
 /**
  *
@@ -33,7 +21,6 @@ public class MinesFinder extends JFrame {				//리팩토링10
 	private RecordTable recordClick;
 	private RecordTable recordMediumClick;
 	private RecordTable recordHardClick;
-	private static Clip clip;
 
 	GameSound bgm = new GameSound();
 
@@ -510,7 +497,6 @@ public class MinesFinder extends JFrame {				//리팩토링10
 				UserMode usermode = new UserMode(new Minefield(Integer.parseInt(userwidthtext.getText()), Integer.parseInt(userheighttext.getText()), Integer.parseInt(userminestext.getText())));
 				if (Integer.parseInt(userwidthtext.getText()) == 0 || Integer.parseInt(userheighttext.getText()) == 0) {
 					JOptionPane.showMessageDialog(null, "width, height 둘다 0보다 큰값이 입력되야 합니다.", "Warning", JOptionPane.WARNING_MESSAGE);
-					;
 					System.exit(0);
 				} else {
 					usermode.setVisible(true);
@@ -557,7 +543,7 @@ public class MinesFinder extends JFrame {				//리팩토링10
 //	 */
 
 
-	public static void main(String args[]) throws LineUnavailableException, UnsupportedAudioFileException, IOException {
+	public static void main(String args[]){
 		/* Set the Nimbus look and feel */
 		// <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
 		// (optional) ">
@@ -580,16 +566,7 @@ public class MinesFinder extends JFrame {				//리팩토링10
 					break;
 				}
 			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(MinesFinder.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(MinesFinder.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(MinesFinder.class.getName()).log(java.util.logging.Level.SEVERE, null,
-					ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {		//리팩토링5
 			java.util.logging.Logger.getLogger(MinesFinder.class.getName()).log(java.util.logging.Level.SEVERE, null,
 					ex);
 		}

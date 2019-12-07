@@ -1,10 +1,9 @@
 package pt.technic.apps.minesfinder;
 
-import java.awt.Color;						//∏Æ∆—≈‰∏µ6
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 
 /**
  *

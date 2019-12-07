@@ -1,9 +1,9 @@
 package pt.technic.apps.minesfinder;
 
-import javax.swing.JLabel;
+import javax.swing.*;
 
 public class TimerThread extends Thread{
-	JLabel timerLabel;
+	private JLabel timerLabel;
 	
 	public TimerThread(JLabel timerLabel) {
 		this.timerLabel = timerLabel;
@@ -20,7 +20,7 @@ public class TimerThread extends Thread{
 				Thread.sleep(1000);
 			}
 			catch(InterruptedException e) {
-//				Thread.currentThread().interrupt();			//리팩토링인데 뭔 리팩토링인지 모르겠ㅠㅠ
+				Thread.currentThread().interrupt();			//리팩토링인데 뭔 리팩토링인지 모르겠ㅠㅠ
 				 return;
 			}
 		}

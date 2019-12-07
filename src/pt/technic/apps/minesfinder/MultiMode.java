@@ -1,19 +1,12 @@
 package pt.technic.apps.minesfinder;		//∏Æ∆—≈‰∏µ6, ∏Æ∆—≈‰∏µ10
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import java.awt.GridLayout;
-
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-
-import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
 
 
 /**

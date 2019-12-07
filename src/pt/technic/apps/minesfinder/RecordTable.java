@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class RecordTable implements Serializable {
 
-    private transient final int MAX_CHAR = 10;
+    private transient static final int MAX_CHAR = 10;
     
     private String name;
     private long score;
@@ -27,10 +27,11 @@ public class RecordTable implements Serializable {
         listeners = new ArrayList<>();
     }
     public String getClickname() {
-        if(clickname == null){
+        if (clickname == null) {
             return "nobody";
-        }else
-    	return clickname;
+        } else {
+            return clickname;
+        }
     }
     
     public int getClickPoints() {
