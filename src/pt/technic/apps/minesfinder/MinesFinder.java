@@ -504,30 +504,50 @@ public class MinesFinder extends JFrame {				//리팩토링10
 
 
 	private void btnUserActionPerformed(ActionEvent evt) {// GEN-FIRST:event_btnHardActionPerformed		//리팩토링10
-		int result = JOptionPane.showConfirmDialog(null, userfield, "UserMode Setting", JOptionPane.YES_OPTION);
-		if(result == JOptionPane.YES_OPTION) {
-			UserMode usermode = new UserMode(new Minefield(Integer.parseInt(userwidthtext.getText()), Integer.parseInt(userheighttext.getText()), Integer.parseInt(userminestext.getText())));
-			usermode.setVisible(true);
-			bgm.StopSound();
+		try {
+			int result = JOptionPane.showConfirmDialog(null, userfield, "UserMode Setting", JOptionPane.YES_OPTION);
+			if (result == JOptionPane.YES_OPTION) {
+				UserMode usermode = new UserMode(new Minefield(Integer.parseInt(userwidthtext.getText()), Integer.parseInt(userheighttext.getText()), Integer.parseInt(userminestext.getText())));
+				if (Integer.parseInt(userwidthtext.getText()) == 0 || Integer.parseInt(userheighttext.getText()) == 0) {
+					JOptionPane.showMessageDialog(null, "width, height 둘다 0보다 큰값이 입력되야 합니다.", "Warning", JOptionPane.WARNING_MESSAGE);
+					;
+					System.exit(0);
+				} else {
+					usermode.setVisible(true);
+					bgm.StopSound();
+				}
+			}
+		}catch (NumberFormatException ex){
+			JOptionPane.showMessageDialog(null, "width, height 수를 입력해야 합니다.", "Warning", JOptionPane.WARNING_MESSAGE);
+		}catch (IllegalArgumentException ex){
+			JOptionPane.showMessageDialog(null, "지뢰개수가 0보다 커야합니다.", "Warning", JOptionPane.WARNING_MESSAGE);
 		}
-
 	}// GEN-LAST:event_btnHardActionPerformed
 	
 	private void btnPracticeActionPerformed(ActionEvent evt) {// GEN-FIRST:event_btnHardActionPerformed		//리팩토링10
-		int result = JOptionPane.showConfirmDialog(null, practicefield, "PracticeMode Setting", JOptionPane.YES_OPTION);
-		if(result == JOptionPane.YES_OPTION) {
-			if (Integer.parseInt(minestext.getText()) > Integer.parseInt(lifetext.getText())) {
-				PracticeMode practicemode = new PracticeMode(new Minefield(Integer.parseInt(widthtext.getText()), Integer.parseInt(heighttext.getText()),
-																			Integer.parseInt(minestext.getText()), Integer.parseInt(lifetext.getText())));
-				practicemode.setVisible(true);
-				bgm.StopSound();
+		try {
+			int result = JOptionPane.showConfirmDialog(null, practicefield, "PracticeMode Setting", JOptionPane.YES_OPTION);
+			if (result == JOptionPane.YES_OPTION) {
+				if (Integer.parseInt(minestext.getText()) > Integer.parseInt(lifetext.getText())) {
+					PracticeMode practicemode = new PracticeMode(new Minefield(Integer.parseInt(widthtext.getText()), Integer.parseInt(heighttext.getText()),
+							Integer.parseInt(minestext.getText()), Integer.parseInt(lifetext.getText())));
+					if (Integer.parseInt(widthtext.getText()) == 0 || Integer.parseInt(heighttext.getText()) == 0) {
+						JOptionPane.showMessageDialog(null, "width, height 모두 0보다 큰 값이 입력되어야 합니다.", "Warning", JOptionPane.WARNING_MESSAGE);
+						System.exit(0);
+					} else {
+						practicemode.setVisible(true);
+						bgm.StopSound();
+					}
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "지뢰개수보다 라이프 수가 작아야합니다.");
 			}
-			else{
-				throw new IllegalArgumentException("라이프 수가 지뢰 개수보다 작아야합니다.");
-			}
-		}
-		else {
-			JOptionPane.showMessageDialog(null,"지뢰개수보다 라이프 수가 작아야합니다.");
+		}catch (NumberFormatException ex){
+			JOptionPane.showMessageDialog(null, " width, height 수를 입력해야 합니다.", "Warning", JOptionPane.WARNING_MESSAGE);
+		}catch (IllegalArgumentException ex){
+			JOptionPane.showMessageDialog(null, "width, height의 수가 0보다 커야합니다.", "Warning", JOptionPane.WARNING_MESSAGE);
+		}catch (OutOfMemoryError ex){
+			JOptionPane.showMessageDialog(null, "입력가능한 범위를 초과했습니다.", "Warning", JOptionPane.WARNING_MESSAGE);
 		}
 
 	}// GEN-LAST:event_btnHardActionPerformed
