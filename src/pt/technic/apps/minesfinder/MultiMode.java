@@ -10,19 +10,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+
 
 /**
  *
@@ -49,6 +41,8 @@ public class MultiMode extends javax.swing.JFrame {
 	JLabel minesleft1 = new JLabel();
 	JLabel minesleft2 = new JLabel();
 	JLabel mines = new JLabel();
+
+	GameSound sound = new GameSound();
 
 	/**
 	 * ` Creates new form GameWindow
@@ -137,13 +131,7 @@ public class MultiMode extends javax.swing.JFrame {
 						minefield1.setMineCovered(x, y);
 					}
 					updateButtonsStates1();
-					try {					//∏Æ∆—≈‰∏µ15
-						playSound_flag();
-					} catch (MalformedURLException ex) {
-						Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-					} catch (LineUnavailableException|UnsupportedAudioFileException|IOException ex) {		//∏Æ∆—≈‰∏µ5
-						Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);		//∏Æ∆—≈‰∏µ14
-					}
+					sound.GameSound("flag_mine.wav");
 					SwingUtilities.updateComponentTreeUI(gridPanel1);
 				} else if (e.getKeyCode() == KeyEvent.VK_W) {
 					for(int i=0; i<minefield1.getWidth(); i++) {
@@ -157,37 +145,19 @@ public class MultiMode extends javax.swing.JFrame {
 							buttons2[i][j].setFocusable(true);
 						}
 					}
-					try {
-						playSound_click();
-					} catch (MalformedURLException ex) {
-						Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-					}  catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
-						Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
-					}
+					sound.GameSound("click.wav");
 					SwingUtilities.updateComponentTreeUI(gridPanel1);
 					updateButtonsStates1();
 					if (minefield1.isGameFinished()) {
 						if (minefield1.isPlayerDefeated()) {
 							minefield1.revealMines();
 							updateButtonsStates1();
-							try {
-								playSound_bomb();
-								playSound_over();
-							} catch (MalformedURLException ex) {
-								Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-							}  catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
-								Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
-							}
+							sound.GameSound("bomb.wav");
+							sound.GameSound("over.wav");
 							JOptionPane.showMessageDialog(null, "2Player Win!", // ∞‘¿” Ω«∆–
 									"RESULT", JOptionPane.INFORMATION_MESSAGE);
 						} else {
-							try {
-								playSound_win();
-							} catch (MalformedURLException ex) {
-								Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
-								Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
-							}
+							sound.GameSound("win.wav");
 							JOptionPane.showMessageDialog(null, "1Player Win! ", "RESULT",
 									JOptionPane.INFORMATION_MESSAGE);
 						}
@@ -204,13 +174,7 @@ public class MultiMode extends javax.swing.JFrame {
 				} else if (e.getKeyCode() == KeyEvent.VK_K && x < minefield2.getWidth() - 1) {
 					buttons2[x + 1][y].requestFocus();
 				} else if (e.getKeyCode() == KeyEvent.VK_O) {
-					try {					//∏Æ∆—≈‰∏µ15
-						playSound_flag();
-					} catch (MalformedURLException ex) {
-						Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-					} catch (LineUnavailableException|UnsupportedAudioFileException|IOException ex) {        //∏Æ∆—≈‰∏µ5
-						Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);        //∏Æ∆—≈‰∏µ14
-					}
+					sound.GameSound("flag_mine.wav");
 					if (minefield2.getGridState(x, y) == Minefield.COVERED) {			//∏Æ∆—≈‰∏µ12
 						minesleft2.setText(String.valueOf(Integer.valueOf(minesleft2.getText()) - 1));
 						minefield2.setMineMarked(x, y);
@@ -224,13 +188,7 @@ public class MultiMode extends javax.swing.JFrame {
 					SwingUtilities.updateComponentTreeUI(gridPanel2);
 
 				} else if (e.getKeyCode() == KeyEvent.VK_U) {
-					try {
-						playSound_click();
-					} catch (MalformedURLException ex) {
-						Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-					}  catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
-						Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
-					}
+					sound.GameSound("click.wav");
 					for(int i=0; i<minefield2.getWidth(); i++) {
 						for(int j=0; j<minefield2.getHeight();j++) {
 							buttons2[i][j].setFocusable(false);
@@ -248,24 +206,13 @@ public class MultiMode extends javax.swing.JFrame {
 						if (minefield2.isPlayerDefeated()) {
 							minefield2.revealMines();
 							updateButtonsStates2();
-							try {
-								playSound_bomb();
-								playSound_over();
-							} catch (MalformedURLException ex) {
-								Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
-								Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
-							}
+							sound.GameSound("bomb.wav");
+							sound.GameSound("over.wav");
 							JOptionPane.showMessageDialog(null, "1Player Win!", // ∞‘¿” Ω«∆–
 									"RESULT", JOptionPane.INFORMATION_MESSAGE);
 						} else {
-							try {
-								playSound_win();
-							} catch (MalformedURLException ex) {
-								Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
-							}  catch (LineUnavailableException |UnsupportedAudioFileException | IOException ex) {		//∏Æ∆—≈‰∏µ5
-								Logger.getLogger(MultiMode.class.getName()).log(Level.SEVERE, null, ex);
-							}
+								sound.GameSound("win.wav");
+
 							JOptionPane.showMessageDialog(null, "2Player Win! ", "RESULT",
 									JOptionPane.INFORMATION_MESSAGE);
 						}
@@ -322,58 +269,6 @@ public class MultiMode extends javax.swing.JFrame {
 		}
 	}
 
-	String path =System.getProperty("user.dir") + "/src/pt/technic/apps/minesfinder/resources/minesound/";		 //∏Æ∆—≈‰∏µ3
-
-	public void playSound_click() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path+"click.wav");		//∏Æ∆—≈‰∏µ13
-
-		Clip clip = AudioSystem.getClip();
-
-		AudioInputStream ais = AudioSystem.
-				getAudioInputStream( url );
-		clip.open(ais);
-		clip.start();
-	}
-
-	public void playSound_flag() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path +"flag_mine.wav");
-		Clip clip = AudioSystem.getClip();
-
-		AudioInputStream ais = AudioSystem.
-				getAudioInputStream( url );
-		clip.open(ais);
-		clip.start();
-	}
-
-
-	public void playSound_bomb() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path + "bomb.wav");
-		Clip clip = AudioSystem.getClip();
-
-		AudioInputStream ais = AudioSystem.
-				getAudioInputStream( url );
-		clip.open(ais);
-		clip.start();
-	}
-
-	public void playSound_win() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path + "win.wav");
-		Clip clip = AudioSystem.getClip();
-
-		AudioInputStream ais = AudioSystem.
-				getAudioInputStream( url );
-		clip.open(ais);
-		clip.start();
-	}
-	public void playSound_over() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		File url = new File(path + "over.wav");
-		Clip clip = AudioSystem.getClip();
-
-		AudioInputStream ais = AudioSystem.
-				getAudioInputStream( url );
-		clip.open(ais);
-		clip.start();
-	}
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
